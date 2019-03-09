@@ -36,20 +36,18 @@ func main() {
 	sls := len(smallArrs)
 
 	//每个小文件输出的数量
-	var arrNumbers []int = make([]int, sls)
+	var arrNumbers = make([]int, sls)
 
 	//获取每个文件第一个数,也是每个文件的最小值,建立败者树
 	var minArr []int
 	for group_id := 0; group_id < sls; group_id++ {
 		minArr = append(minArr, smallArrs[group_id][0])
-
 	}
 
-	fmt.Println("arrNumbers:", arrNumbers)
-	fmt.Println("minArr:", minArr)
-
+	//合并最终存放文件
 	var endArr []int
 
+	//创建胜者树
 	tree, level := createTree(minArr)
 
 	//循环一次,取一个最小值
@@ -67,15 +65,15 @@ func main() {
 			value = smallArrs[group_id][arrNumbers[group_id]]
 		}
 
-		treeSort(tree, level,value)
-		fmt.Println("endArr:",endArr)
+		//胜者树排序
+		winTreeSort(tree, level,value)
 	}
+	fmt.Println("endArr:",endArr)
 }
 
-func treeSort(tree []node, level int,value int) {
+func winTreeSort(tree []node, level int,value int) {
 	var leaf = pow(2, level)
 	winNode := tree[0].group_id + leaf - 1
-	fmt.Println("winNode:", winNode)
 
 	tree[winNode].value = value
 
