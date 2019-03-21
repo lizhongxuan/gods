@@ -21,11 +21,11 @@ func NewTimerCycle() *timerCycle {
 	}
 }
 
-func (tc *timerCycle) addTask(second int, name string) {
+func (tc *timerCycle) addTask(afterTime int, name string) {
 	tc.Lock()
 	defer tc.Unlock()
-	cycle_num:= second/3600
-	index := second%3600
+	cycle_num:= afterTime / 3600
+	index := afterTime % 3600
 	fmt.Println("addTask:",index)
 	node_t := tc.tasks.taskList[index]
 
@@ -36,10 +36,7 @@ func (tc *timerCycle) addTask(second int, name string) {
 		},
 	}
 
-	if node_t == nil {
-		tc.tasks.taskList[index] = newNode
-		return
-	}else if node_t.next == nil {
+	if node_t.next == nil {
 		node_t.next = newNode
 		newNode.pre = node_t
 		return
@@ -49,19 +46,17 @@ func (tc *timerCycle) addTask(second int, name string) {
 	node_t.next.pre = newNode
 	node_t.next = newNode
 	newNode.pre = node_t
-
 }
 
 func (tc *timerCycle) Start() {
 	for {
-		fmt.Println("index:",tc.tasks.curIndex)
 		if tc.isClose {
 			fmt.Println("close timerCycle")
 			break
 		}
 		tc.checkTasks()
 
-		if tc.tasks.curIndex == 3600 {
+		if tc.tasks.curIndex == 3599 {
 			tc.tasks.curIndex = -1
 		}
 		tc.tasks.curIndex++
@@ -74,20 +69,25 @@ func (tc *timerCycle)checkTasks()  {
 	defer tc.Unlock()
 
 	indexNode := tc.tasks.taskList[tc.tasks.curIndex]
-	tmpNode := indexNode
-
+	tmpNode := indexNode.next
 	for tmpNode != nil {
-		if tmpNode.cycle_num == 0 {
-			go tmpNode.t.print()
-			if tmpNode.next ==nil {
-				tmpNode = nil
-				continue
-			}
-
+		//还没能触发,减一等下一轮再判断
+		if tmpNode.cycle_num != 0 {
+			tmpNode.cycle_num--
 			tmpNode = tmpNode.next
 			continue
 		}
-		tmpNode.cycle_num--
+		//触发
+		tmpNode.t.print()
+		tmpNode.pre.next = tmpNode.next
+
+		if tmpNode.next != nil {
+			tmpNode.next.pre = tmpNode.pre
+			tmpNode.pre.next = tmpNode.next
+		}else {
+			tmpNode.pre.next = nil
+		}
+
 		tmpNode = tmpNode.next
 	}
 }
