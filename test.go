@@ -1,1 +1,5 @@
-gogogogo
+package main
+
+func m() {
+
+}
