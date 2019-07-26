@@ -1,5 +1,7 @@
 package main
 
-func m() {
+
+func lzx222() {
+
 
 }
