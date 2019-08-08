@@ -1,7 +1,2 @@
 package main
-
-
-func lzx222() {
-
-
-}
+xxxx1
