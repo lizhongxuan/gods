@@ -25,26 +25,33 @@ import (
 是什么字续，主要取决与处理器的处理顺序！
 
 
-一般来说，除了intel 80x86系列处理器是小尾架构，绝大部分处理器均为大尾架构，如sparc系列/power系列/moto的68系列等。网络字节顺序也是大尾的。
+一般来说，除了intel 80x86系列处理器是小尾架构，绝大部分处理器均为大尾架构，如sparc系列/power系列/moto的68系列等。  网络字节顺序也是大端的。
 在编解码时，尤其需要注意大小尾问题。在每处使用超过一个byte的地方，最好使用转换函数（hton*和ntoh*系列或自写均可）
+
 所以，当你的通信软件要和其他机器上的通信软件（模块）通信时，凡是编解码等地方使用了超过1个字节的数据类型，都最好使用转换函数。
 在部分socket处理中，也需要加上转换函数（如ipaddr结构的填写等处），另外一部分本身已经包含相关处理，就可以不用加。
 */
 
 func main() {
-	var i uint32 = 1234
+	var i uint32 = 256 + 16 + 1
 
 	// 小端
 	b := make([]byte, 4)
+	/*
+		b[0] = byte(v)
+		b[1] = byte(v >> 8)
+		b[2] = byte(v >> 16)
+		b[3] = byte(v >> 24)
+	*/
 	binary.LittleEndian.PutUint32(b, i)
-	fmt.Printf("LittleEndian(%d) :", i)
+	fmt.Printf("LittleEndian(%d)  b[0] b[1] b[2] b[3]:", i)
 	for _, bin := range b {
 		fmt.Printf("%02X ", bin)
 	}
 	fmt.Printf("\n")
 
 	//大端
-	fmt.Printf("BigEndian(%d) :", i)
+	fmt.Printf("BigEndian(%d)     b[3] b[2] b[1] b[0]:", i)
 	binary.BigEndian.PutUint32(b, i)
 	for _, bin := range b {
 		fmt.Printf("%02X ", bin)
