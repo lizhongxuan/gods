@@ -15,7 +15,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	dbserver := &DatabaseServer{}
 	grpcServer := etcdservice.NewServer()
 	datapb.RegisterDatabaseServiceServer(grpcServer, dbserver)

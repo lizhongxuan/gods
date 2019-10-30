@@ -83,6 +83,7 @@ func (registry *Registry) Wait() {
 	registry.closeSession()
 }
 
+//建立有时间时效(租约)的链接
 func (registry *Registry) newSession() (*concurrency.Session, error) {
 	session, err := concurrency.NewSession(registry.client, concurrency.WithTTL(etcdTTL))
 	if err != nil {
