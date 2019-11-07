@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+//trie树不适合精确匹配查找,但是适合查找前缀匹配的字符串
 type TrieNode struct {
 	data         int32
 	children     [26]*TrieNode
