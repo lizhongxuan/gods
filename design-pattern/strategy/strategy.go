@@ -1,4 +1,4 @@
-package strategy
+package main
 
 type Operator interface {
 	Apply(int, int) int
