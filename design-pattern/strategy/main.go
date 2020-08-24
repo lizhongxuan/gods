@@ -1,7 +1,7 @@
 package main
 
 import (
-	"DesignPattern/StrategyPattern/strategy"
+	"github.com/zhongxuan123/gods/DesignPattern/StrategyPattern/strategy"
 	"fmt"
 )
 
