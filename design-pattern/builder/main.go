@@ -6,15 +6,14 @@
 */
 package main
 
-import "DesignPattern/BuilderPattern/builder"
 
 func main(){
-	b := builder.NewBuilder()
-	lamp_1 := b.Color(builder.BlueColor).Brand(builder.Osram).Build()
+	b := NewBuilder()
+	lamp_1 := b.Color(BlueColor).Brand(Osram).Build()
 	lamp_1.Open()
 	lamp_1.ProductionIllustrative()
 
-	lamp_2 := b.Color(builder.GreenColor).Brand(builder.OppleBulb).Build()
+	lamp_2 := b.Color(GreenColor).Brand(OppleBulb).Build()
 	lamp_2.Open()
 	lamp_2.ProductionIllustrative()
 	}
