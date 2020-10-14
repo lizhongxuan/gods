@@ -9,7 +9,6 @@ import "fmt"
 通俗一点讲，该模式将实现组件间关系从程序内部提到外部容器来管理。
 */
 
-type FoodFactory struct{}
 type Food interface{
 	Eat()
 }
@@ -18,7 +17,7 @@ type Hamberger struct{
 }
 
 
-func (ff FoodFactory) CreateFood(name string) Food {
+func  CreateFood(name string) Food {
 	var s Food
 	switch name {
 	case "Hamberger":
@@ -41,8 +40,7 @@ func (a A)Have(h Food)  {
 }
 
 func main() {
-	f := FoodFactory{}
-	h :=f.CreateFood("Hamberger")
+	h := CreateFood("Hamberger")
 
 	a := A{}
 	a.Have(h)
