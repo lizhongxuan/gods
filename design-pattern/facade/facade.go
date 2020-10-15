@@ -1,4 +1,4 @@
-package facade
+package main
 
 import "fmt"
 
@@ -36,4 +36,9 @@ type Count struct {
 func (this *Count) GetCountByID(id int64) (*Count, error) {
 	fmt.Println("get video counts")
 	return this, nil
+}
+
+func main() {
+	f := &Facade{}
+	f.GetRecommandVideos()
 }
